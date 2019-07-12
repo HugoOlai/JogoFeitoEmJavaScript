@@ -1,0 +1,423 @@
+	 <html>
+   <head>  
+		<title>
+			south boy
+		</title>
+		<style type="text/css">
+		body{padding: 0; margin: 0;}
+
+
+
+		</style>
+	</head>
+	<body > 
+		
+		
+		
+		
+		<canvas width="768" height="976" id="main" style="border:1px solid #000000";> </canvas> 
+
+		
+		
+		
+		<script src="js/mySprite.js"></script>
+		<script src="js/button.js"></script>
+		<script src="js/tutorial.js"></script>
+		<script src="js/menu.js"></script>
+		<script src="js/credit.js"></script>
+		<script src="js/level_01.js"></script>
+		<script src="js/gameOver.js"></script>
+		<script src="js/theEnd.js"></script>
+		<script src="js/intro.js"></script>
+		<script ="JavaScript">  
+		  /*if (screen.width >= "768" && screen.height >= "1024") {  
+		    window.location.href = "index.html";  
+		  }  
+		  if (screen.width == "800") {  
+		    window.location.href = "index800.html";  
+		  }  
+		  if (screen.width <= "800") {  
+		    window.location.href = "index640.html";  
+		  }*/  
+		</script> 
+		
+		<script>
+
+					var canvas = document.getElementById("main") ;
+					var screen = canvas.getContext ("2d");
+
+ 
+
+
+					//criação de um ENUM, uma enumeração
+
+
+					var SCENE = { INTRO: 0, MENU: 1, CREDIT: 2, LEVEL_01: 3, TUTORIAL: 4, GAME_OVER: 5, THE_END: 6 }
+
+
+					//criação de uma variável que vai receber apenas os valores da enumeração
+
+					var currentScene = SCENE.LEVEL_01;
+
+					//criação das variáveis de cena
+					var intro = new Intro();
+					var menu = new Menu();
+					var level_01 = new Level_01();
+					var tutorial = new Tutorial();
+					var credit = new Credit();
+					var gameOver = new GameOver();
+					/* 
+					var level_01 = new Level_01();
+
+					var theEnd = new TheEnd();
+					*/
+
+
+					var tempo = 0;
+					var tempo_flui = 1;
+				
+				   var cima_apertei = false;
+				   var cima_apertando = false;
+				   var cima_soltei = false;
+				   var cima_solto = true;
+
+				   var baixo_apertei = false;
+				   var baixo_apertando = false;
+				   var baixo_soltei = false;
+				   var baixo_solto = true;
+
+				   var esquerda_apertei = false;
+				   var esquerda_apertando = false;
+				   var esquerda_soltei = false;
+				   var esquerda_solto = true;
+
+				   var direita_apertei = false;
+				   var direita_apertando = false;
+				   var direita_soltei = false;
+				   var direita_solto = true;
+
+				   var enter_apertei= false;
+				   var enter_apertando = false;
+				   var enter_soltei = false;
+				   var enter_solto = true;
+
+	    		   var espaco_apertei= false;
+				   var espaco_apertando = false;
+				   var espaco_soltei = false;
+				   var espaco_solto = true;
+
+				   var BackSpace_apertei= false;
+				   var BackSpace_apertando = false;
+				   var BackSpace_soltei = false;
+				   var BackSpace_solto = true;
+
+				   var pause_apertei= false;
+				   var pause_apertando = false;
+				   var pause_soltei = false;
+				   var pause_solto = true;
+
+				   var mouse_apertei= false;
+				   var mouse_apertando = false;
+				   var mouse_soltei = false;
+				   var mouse_solto = true;
+
+
+				   			  
+    	        
+
+    			function load()
+    			{
+    				if(true)//aqui temos que testar se carregou tudo
+					{
+						loop();
+					}
+					else//senao
+					{
+						setTimeout(Load, 30); 
+					}  
+    			}
+
+    			load();
+
+				function loop()
+				{
+
+					//limpa o rastro de desenho de objetos na tela
+					screen.clearRect(0,0,canvas.width, canvas.height);
+
+					//aqui mudamos e chamamos o update e o draw conforme a cena do jogo em que estamos
+					switch(currentScene)
+					{
+						case SCENE.TUTORIAL:
+							tutorial.Update();
+							tutorial.Draw();
+						break;
+
+						case SCENE.INTRO:
+							intro.Update();
+							intro.Draw();
+						break;
+
+						case SCENE.MENU:
+							menu.Update();
+							menu.Draw();
+						break;
+
+						case SCENE.LEVEL_01:
+						    level_01.Update();
+						    level_01.Draw();
+						break;
+						
+						case SCENE.CREDIT:
+							credit.Update();
+							credit.Draw();
+							//credit.contaTempo();							
+						break;
+						case SCENE.GAME_OVER:
+							gameOver.Update();
+							gameOver.Draw();
+						break;
+						/*
+						case SCENE.LEVEL_01:
+							level_01.Update();
+							level_01.Draw();
+						break;
+						case SCENE.GAME_OVER:
+							gameOver.Update();
+							gameOver.Draw();
+						break;
+						case SCENE.THE_END:
+							theEnd.Update();
+							theEnd.Draw();
+						break;*/
+					}
+
+					
+					cima_apertei = false;
+					cima_soltei = false;
+
+					baixo_apertei = false;
+					baixo_soltei = false;
+
+					esquerda_apertei = false;
+					esquerda_soltei = false;
+
+					direita_apertei = false;
+					direita_soltei = false;
+
+					enter_apertei = false;
+					enter_soltei = false;
+                    
+                    espaco_apertei = false;
+                    espaco_soltei = false;
+
+                    BackSpace_apertei = false;
+                    BackSpace_soltei = false;
+
+                    pause_apertei = false;
+                    pause_soltei = false;
+
+                    mouse_apertei = false;
+                    mouse_soltei = false;
+
+					setTimeout(loop, 30);
+				}
+
+				function mouse_down(mouse)
+   				{      	
+    	    		console.log("MOUSE DOWN INDEX mouse X " + mouse.x + " mouse Y " + mouse.y );
+    	    		
+					switch(currentScene)
+				
+				{
+						case SCENE.TUTORIAL:
+							tutorial.mouse_down(mouse);
+						break;
+
+						case SCENE.INTRO:
+						    intro.mouse_down(mouse);
+						break;
+
+						case SCENE.MENU:
+							menu.mouse_down(mouse);
+						break;
+
+						case SCENE.LEVEL_01:
+						    level_01.mouse_down(mouse);
+						break;
+				   				
+						case SCENE.CREDIT:
+							credit.mouse_down(mouse);
+						break;
+
+						case SCENE.GAME_OVER:
+							gameOver.mouse_down(mouse);
+						break;
+				}
+
+						/*
+
+						case SCENE.LEVEL_01:
+							level_01.mouse_down(mouse);
+						break;
+						
+						case SCENE.THE_END:
+							theEnd.mouse_down(mouse);
+						break;
+						*/
+						console.log("oi =" + mouse.keyCode)
+
+						if(mouse.keyCode == 0 && mouse_solto)
+						{
+							mouse_solto = false;
+							mouse_apertei = true;
+							mouse_apertando = true;
+						}
+				}
+
+				function mouse_up(mouse)
+				{
+					if(mouse.keyCode == 0 && mouse_apertando)
+					{
+						mouse_apertando = false;
+						mouse_soltei = true;
+						mouse_solto = true;	
+					}
+
+
+
+				}
+
+
+				function key_down(key)	
+				{console.log("ooi" + key.keyCode)
+    	    		if(key.keyCode == 38 && cima_solto)
+					{
+						cima_solto = false;
+						cima_apertei = true;
+						cima_apertando = true;						
+					}
+
+					if(key.keyCode == 37 && esquerda_solto)
+					{
+						
+						esquerda_solto= false;
+						esquerda_apertei = true;
+						esquerda_apertando = true;
+					}
+
+					if(key.keyCode == 39 && direita_solto)
+					{	
+						
+						direita_solto = false;
+						direita_apertei = true;
+						direita_apertando = true;
+					}
+
+					if(key.keyCode == 40 && baixo_solto)
+					{	
+						baixo_solto = false;
+						baixo_apertei = true;
+						baixo_apertando = true;
+					}
+					if(key.keyCode == 13 && enter_solto)
+					{
+						enter_solto = false;
+						enter_apertei = true;
+						enter_apertando = true;
+					}
+					if(key.keyCode == 32 && espaco_solto)
+					{
+						espaco_solto = false;
+						espaco_apertei = true;
+						espaco_apertando = true;
+					}
+					if(key.keyCode == 8 && BackSpace_solto)
+					{
+						BackSpace_solto = false;
+						BackSpace_apertei = true;
+						BackSpace_apertando = true;
+
+					}
+
+					if(key.keyCode == 80 && pause_solto)
+					{
+						pause_solto = false;
+						pause_apertei = true;
+						pause_apertando = true;
+
+					}
+
+
+				}
+				
+				function key_up(key)
+				{
+					if(key.keyCode == 38 && cima_apertando)	
+					{
+						cima_apertando = false;
+						cima_soltei = true;
+						cima_solto = true;	
+					}
+			
+					if(key.keyCode == 37 && esquerda_apertando)
+					{
+						esquerda_apertando = false;
+						esquerda_soltei = true;
+						esquerda_solto = true;
+					}
+
+					if(key.keyCode == 39 && direita_apertando)
+					{
+						direita_apertando = false;
+						direita_soltei = true;
+						direita_solto = true;
+					}
+
+					if(key.keyCode == 40 && baixo_apertando)
+					{
+						baixo_apertando = false;
+						baixo_soltei = true;
+						baixo_solto = true;
+					}
+
+					if(key.keyCode == 13 && enter_apertando)
+					{
+						enter_apertando = false;
+						enter_soltei = true;
+						enter_solto = true;
+					}
+
+					if(key.keyCode == 32 && espaco_apertando)
+					{
+						espaco_apertando = false;
+						espaco_soltei = true;
+						espaco_solto = true;
+					}
+					if(key.keyCode == 8 && BackSpace_apertando)
+					{
+						BackSpace_apertando = false;
+						BackSpace_soltei = true;
+						BackSpace_solto = true;
+					
+					}
+
+					if(key.keyCode == 80 && pause_apertando)
+					{
+						pause_apertando = false;
+						pause_soltei = true;
+						pause_solto = true;				
+
+					}
+				}
+
+				window.addEventListener("mousedown", mouse_down, true);
+				window.addEventListener("mouseup", mouse_up, true);
+				window.addEventListener("keydown", key_down, true);
+				window.addEventListener("keyup", key_up, true);
+  				
+								
+				 
+</script>
+</body>
+</html>
